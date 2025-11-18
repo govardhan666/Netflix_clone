@@ -1,1 +1,1 @@
-Netfix clone with full mlops pipeline
+Netflix clone with full mlops pipeline
