@@ -1,0 +1,93 @@
+.banner {
+  position: relative;
+  height: 75vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.banner-contents {
+  margin-left: 30px;
+  padding-top: 220px;
+  height: 100%;
+  max-width: 600px;
+}
+
+.banner-title {
+  font-size: 3rem;
+  font-weight: 800;
+  padding-bottom: 0.3rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.banner-description {
+  width: 100%;
+  line-height: 1.5;
+  padding-top: 1rem;
+  font-size: 1.1rem;
+  max-width: 450px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.banner-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 1.5rem;
+}
+
+.banner-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: white;
+  font-weight: 700;
+  border-radius: 4px;
+  padding: 12px 32px;
+  font-size: 1rem;
+  background-color: rgba(51, 51, 51, 0.5);
+  border: none;
+  transition: all 0.2s;
+}
+
+.banner-button:hover {
+  background-color: rgba(51, 51, 51, 0.8);
+  transform: scale(1.05);
+}
+
+.banner-button:not(.outline) {
+  background-color: white;
+  color: black;
+}
+
+.banner-button:not(.outline):hover {
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+.banner-fade-bottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 150px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(20, 20, 20, 0.6),
+    #141414
+  );
+}
+
+@media (max-width: 768px) {
+  .banner-contents {
+    margin-left: 20px;
+    padding-top: 150px;
+  }
+
+  .banner-title {
+    font-size: 2rem;
+  }
+
+  .banner-description {
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,146 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 20px;
+  height: 70px;
+  z-index: 1000;
+  transition: background-color 0.5s ease;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0));
+}
+
+.navbar-black {
+  background-color: #111;
+}
+
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.navbar-logo {
+  color: #e50914;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.navbar-links {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links li {
+  color: #e5e5e5;
+  cursor: pointer;
+  font-size: 14px;
+  transition: color 0.3s;
+}
+
+.navbar-links li:hover {
+  color: #b3b3b3;
+}
+
+.navbar-links li.active {
+  color: white;
+  font-weight: 700;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navbar-icon {
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.navbar-icon:hover {
+  color: #b3b3b3;
+}
+
+.navbar-profile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.navbar-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  padding: 10px 0;
+  min-width: 200px;
+}
+
+.profile-info {
+  padding: 10px 20px;
+}
+
+.profile-info p {
+  margin: 0;
+  color: white;
+  font-size: 14px;
+}
+
+.profile-email {
+  color: #b3b3b3;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.15);
+  margin: 10px 0;
+}
+
+.dropdown-item {
+  width: 100%;
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  color: white;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+  .navbar-links {
+    display: none;
+  }
+}

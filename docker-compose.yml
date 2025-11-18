@@ -1,0 +1,175 @@
+version: '3.8'
+
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:7.0
+    container_name: netflix-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: netflix_clone
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - netflix-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: netflix-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - netflix-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # MLflow Tracking Server
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.9.1
+    container_name: netflix-mlflow
+    restart: unless-stopped
+    ports:
+      - "5001:5000"
+    environment:
+      - MLFLOW_BACKEND_STORE_URI=sqlite:///mlflow/mlflow.db
+      - MLFLOW_DEFAULT_ARTIFACT_ROOT=/mlflow/artifacts
+    volumes:
+      - mlflow_data:/mlflow
+    networks:
+      - netflix-network
+    command: mlflow server --host 0.0.0.0 --port 5000
+
+  # ML Service
+  ml-service:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.ml-service
+    container_name: netflix-ml-service
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+      - MONGODB_URI=mongodb://mongodb:27017/netflix_clone
+    volumes:
+      - ml_models:/app/models
+    networks:
+      - netflix-network
+    depends_on:
+      - mongodb
+      - mlflow
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.backend
+    container_name: netflix-backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - MONGODB_URI=mongodb://mongodb:27017/netflix_clone
+      - JWT_SECRET=your_production_jwt_secret_change_this
+      - JWT_EXPIRE=7d
+      - REDIS_URL=redis://redis:6379
+      - ML_SERVICE_URL=http://ml-service:8000
+    networks:
+      - netflix-network
+    depends_on:
+      - mongodb
+      - redis
+      - ml-service
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:5000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Frontend
+  frontend:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.frontend
+    container_name: netflix-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    networks:
+      - netflix-network
+    depends_on:
+      - backend
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Prometheus Monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: netflix-prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./infrastructure/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - netflix-network
+
+  # Grafana Dashboard
+  grafana:
+    image: grafana/grafana:latest
+    container_name: netflix-grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./infrastructure/monitoring/grafana-dashboards:/etc/grafana/provisioning/dashboards
+      - ./infrastructure/monitoring/grafana-datasources:/etc/grafana/provisioning/datasources
+    networks:
+      - netflix-network
+    depends_on:
+      - prometheus
+
+networks:
+  netflix-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+  redis_data:
+  mlflow_data:
+  ml_models:
+  prometheus_data:
+  grafana_data:

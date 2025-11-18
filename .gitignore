@@ -1,0 +1,68 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Environment variables
+.env
+*.env
+!.env.example
+
+# Build outputs
+build/
+dist/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# ML Models
+ml-service/models/*.pkl
+ml-service/models/*.h5
+ml-service/models/*.pb
+
+# MLflow
+mlruns/
+mlflow.db
+
+# Docker
+*.tar
+
+# Kubernetes
+*.kubeconfig
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Coverage
+coverage/
+.coverage
+htmlcov/
+
+# Database
+*.db
+*.sqlite

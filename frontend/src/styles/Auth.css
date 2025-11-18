@@ -1,0 +1,110 @@
+.auth-container {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.9)),
+              url('https://assets.nflxext.com/ffe/siteui/vlv3/7ca5b7c7-20aa-42a8-a278-f801b0d65fa1/web/IN-en-20241118-TRIFECTA-perspective_WEB_c292a608-cdc6-4686-8dc8-405bfcf753af_large.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-content {
+  width: 100%;
+  max-width: 450px;
+  padding: 20px;
+}
+
+.auth-header {
+  margin-bottom: 30px;
+}
+
+.logo {
+  color: #e50914;
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.auth-form-container {
+  background-color: rgba(0, 0, 0, 0.75);
+  padding: 60px 68px 40px;
+  border-radius: 4px;
+}
+
+.auth-form-container h2 {
+  color: white;
+  margin-bottom: 28px;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.auth-form input {
+  background: #333;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  height: 50px;
+  padding: 16px 20px;
+  font-size: 16px;
+}
+
+.auth-form input:focus {
+  outline: 2px solid white;
+  background: #454545;
+}
+
+.auth-form button {
+  background-color: #e50914;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  height: 50px;
+  margin-top: 24px;
+  transition: background-color 0.2s;
+}
+
+.auth-form button:hover:not(:disabled) {
+  background-color: #f40612;
+}
+
+.auth-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-footer {
+  margin-top: 16px;
+  color: #737373;
+}
+
+.auth-footer p {
+  font-size: 14px;
+}
+
+.auth-footer a {
+  color: white;
+  text-decoration: none;
+}
+
+.auth-footer a:hover {
+  text-decoration: underline;
+}
+
+.error {
+  color: #e87c03;
+  background-color: #e87c0320;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
