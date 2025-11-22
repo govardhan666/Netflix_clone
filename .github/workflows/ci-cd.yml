@@ -51,6 +51,9 @@ jobs:
       - name: Build frontend
         working-directory: ./frontend
         run: npm run build
+        env:
+          CI: false
+          GENERATE_SOURCEMAP: false
 
   # Test ML Service
   test-ml-service:
