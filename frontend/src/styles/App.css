@@ -1,0 +1,17 @@
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 24px;
+  color: #e50914;
+}
+
+.error {
+  color: #e50914;
+  margin: 10px 0;
+  padding: 10px;
+  background-color: rgba(229, 9, 20, 0.1);
+  border-radius: 4px;
+  text-align: center;
+}

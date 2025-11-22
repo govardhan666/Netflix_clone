@@ -1,0 +1,16 @@
+.browse {
+  background-color: #141414;
+  min-height: 100vh;
+}
+
+.rows {
+  margin-top: -150px;
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .rows {
+    margin-top: -100px;
+  }
+}
